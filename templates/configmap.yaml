@@ -70,6 +70,38 @@ data:
           <name>hive.metastore.sasl.enabled</name>
           <value>false</value>
         </property>
+
+        <!--Object Store connection Info -->
+        <property>
+            <name>fs.s3a.connection.ssl.enabled</name>
+            <value>true</value>
+        </property>
+
+        <property>
+            <name>fs.s3a.endpoint</name>
+            <value>{{- .Values.objectStore.externalURI }}</value>
+        </property>
+
+        <property>
+            <name>fs.s3a.access.key</name>
+            <value>{{ .Values.objectStore.accessKey }}</value>
+        </property>
+
+        <property>
+            <name>fs.s3a.secret.key</name>
+            <value>{{ .Values.objectStore.secretKey }}</value>
+        </property>
+
+        <property>
+            <name>fs.s3a.path.style.access</name>
+            <value>true</value>
+        </property>
+
+        <property>
+            <name>fs.s3a.impl</name>
+            <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+        </property>
+
       {{- if index .Values.conf "hiveSite" }}
       {{- range $key, $value := index .Values.conf "hiveSite" }}
       <property><name>{{ $key }}</name><value>{{ $value }}</value></property>

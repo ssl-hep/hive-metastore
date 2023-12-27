@@ -19,6 +19,11 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+objectStore:
+  externalURI: 
+  accessKey:
+  secretKey: 
+
 resources: {}
 conf:
   hiveSite:
