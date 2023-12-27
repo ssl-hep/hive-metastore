@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: python:3.10-buster
+        command: ["/bin/sh", "-c"]
+        args: ["while true; do echo hello; sleep 30; done"]
+        volumeMounts:
+        - name: busybox-pv
+          mountPath: /mnt/busybox
+      volumes:
+      - name: busybox-pv
+        persistentVolumeClaim:
+          claimName: busybox-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: busybox-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
