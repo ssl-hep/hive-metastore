@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "hiveMetastore.fullname" . }}-db-init-schema
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: check-postgresql
+          image: "ncsa/checks:1.0.0"
+          env:
+            - name: PGURI
+              value: "postgresql://{{- .Release.Name}}-postgresql:5432/metastore"
+            - name: PGUSER
+              value: "{{- .Values.postgresql.global.postgresql.auth.username }}"
+            - name: PGPASSWORD
+              value: "{{- .Values.postgresql.global.postgresql.auth.password }}"
+            - name: PGTABLE
+              value: "users"
+      containers:
+      - name: hivemeta
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["/bin/sh", "-c"]
+        args:
+          - /opt/hive-metastore/bin/schematool
+           --verbose
+           -initSchema
+           -dbType postgres
+           -userName {{- .Values.postgresql.global.postgresql.auth.username }}
+           -passWord "{{- .Values.postgresql.global.postgresql.auth.password }}"
+           -url "jdbc:postgresql://{{- .Release.Name}}-postgresql:5432/metastore"
+        volumeMounts:
+        - name: hive-config
+          mountPath: /opt/hive-metastore/conf
+      volumes:
+      - name: hive-config
+        configMap:
+          name: {{ include "hiveMetastore.fullname" . }}
+
+
+      restartPolicy: Never
+  backoffLimit: 4
