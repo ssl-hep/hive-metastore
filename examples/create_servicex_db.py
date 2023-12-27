@@ -7,5 +7,6 @@ database = DatabaseBuilder("servicex").build()
 
 with HiveMetastoreClient("hivems-hive-metastore", "9083") as hive_metastore_client:
 	    hive_client.create_database(database)
-	    print(hive_client.get_databases(*))
+	    print(hive_client.get_databases("*"))
+
 
