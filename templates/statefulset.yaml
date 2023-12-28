@@ -43,7 +43,13 @@ spec:
         volumeMounts:
         - name: hive-config
           mountPath: /opt/hive-metastore/conf
+        - name: warehouse-dir
+          mountPath: /opt/hive-metastore/warehouse
       volumes:
       - name: hive-config
         configMap:
           name: {{ include "hiveMetastore.fullname" . }}
+      - name: warehouse-dir
+        emptyDir: {}
+        
+

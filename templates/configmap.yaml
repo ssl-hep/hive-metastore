@@ -19,6 +19,11 @@ data:
           <value>org.apache.hadoop.hive.metastore.events.EventCleanerTask</value>
         </property>
 
+        <property>
+          <name>hive.metastore.warehouse.dir</name>
+          <value>file://opt/hive-metastore/warehouse</value>
+        </property>
+        
         <!--Postgres' connection details -->
         <property>
           <name>javax.jdo.option.ConnectionURL</name>
