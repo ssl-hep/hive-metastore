@@ -21,9 +21,9 @@ data:
 
         <property>
           <name>hive.metastore.warehouse.dir</name>
-          <value>file://opt/hive-metastore/warehouse</value>
+          <value>file:///opt/hive-metastore/warehouse</value>
         </property>
-        
+
         <!--Postgres' connection details -->
         <property>
           <name>javax.jdo.option.ConnectionURL</name>
@@ -114,3 +114,38 @@ data:
       {{- end }}
 
     </configuration>
+  metastore-log4j2.properties: |
+    name = metastore
+
+    appenders = console, file
+    
+    appender.console.type = Console
+    appender.console.name = consoleLogger
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = %d{MM/dd/yy HH:mm:ss} %p %c: %m%n
+    
+    appender.file.type = File
+    appender.file.name = fileLogger
+    appender.file.fileName = /var/log/hive-metastore/metastore.log
+    appender.file.layout.type = PatternLayout
+    appender.file.layout.pattern = %d{MM/dd/yy HH:mm:ss} %p %c: %m%n
+    
+    loggers = meta
+    
+    logger.meta.name = org.apache.hadoop.hive.metastore
+    logger.meta.level = info
+    
+    logger.hive.name = org.apache.hive
+    logger.hive.level = info
+    
+    logger.datanucleusorg.name = org.datanucleus
+    logger.datanucleusorg.level = info
+    
+    logger.datanucleus.name = DataNucleus
+    logger.datanucleus.level = info
+    
+    rootLogger.level = info
+    rootLogger.appenderRefs = console, file
+    rootLogger.appenderRef.console.ref = consoleLogger
+    rootLogger.appenderRef.file.ref = fileLogger
+
