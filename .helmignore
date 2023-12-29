@@ -21,3 +21,4 @@
 *.tmproj
 .venv
 examples/
+Dockerfile

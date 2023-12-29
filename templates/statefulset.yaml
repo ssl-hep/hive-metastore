@@ -37,19 +37,19 @@ spec:
         command:
         - "/bin/sh"
         - "-c"
-        - "/opt/hive-metastore/bin/start-metastore"
+        - "hive --service metastore"
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: hive-config
-          mountPath: /opt/hive-metastore/conf
+          mountPath: /opt/hive/conf
         - name: warehouse-dir
-          mountPath: /opt/hive-metastore/warehouse
+          mountPath: /opt/hive/warehouse
       volumes:
       - name: hive-config
         configMap:
           name: {{ include "hiveMetastore.fullname" . }}
       - name: warehouse-dir
         emptyDir: {}
-        
+
 

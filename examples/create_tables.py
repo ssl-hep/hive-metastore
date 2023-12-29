@@ -18,7 +18,7 @@ from hive_metastore_client.builders import (
     TableBuilder,
 )
 
-HIVE_HOST = "hivems-hive-metastore"
+HIVE_HOST = "localhost"
 HIVE_PORT = 9083
 
 # You must create a list with the columns
@@ -46,7 +46,7 @@ serde_info = SerDeInfoBuilder(
 
 storage_descriptor = StorageDescriptorBuilder(
     columns=columns,
-    location="s3a://path/to/file",
+    location="s3a://servicex/to/file",
     input_format="org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
     output_format="org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
     serde_info=serde_info,
@@ -54,7 +54,7 @@ storage_descriptor = StorageDescriptorBuilder(
 
 table = TableBuilder(
     table_name="orders",
-    db_name="store",
+    db_name="default",
     owner="owner name",
     storage_descriptor=storage_descriptor,
     partition_keys=partition_keys,

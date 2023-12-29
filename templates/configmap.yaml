@@ -79,7 +79,7 @@ data:
         <!--Object Store connection Info -->
         <property>
             <name>fs.s3a.connection.ssl.enabled</name>
-            <value>true</value>
+            <value>flase</value>
         </property>
 
         <property>
@@ -114,27 +114,24 @@ data:
       {{- end }}
 
     </configuration>
-  metastore-log4j2.properties: |
+  hive-log4j2.properties: |
     name = metastore
 
-    appenders = console, file
+    appenders = console
     
     appender.console.type = Console
     appender.console.name = consoleLogger
     appender.console.layout.type = PatternLayout
     appender.console.layout.pattern = %d{MM/dd/yy HH:mm:ss} %p %c: %m%n
-    
-    appender.file.type = File
-    appender.file.name = fileLogger
-    appender.file.fileName = /var/log/hive-metastore/metastore.log
-    appender.file.layout.type = PatternLayout
-    appender.file.layout.pattern = %d{MM/dd/yy HH:mm:ss} %p %c: %m%n
-    
+        
     loggers = meta
     
     logger.meta.name = org.apache.hadoop.hive.metastore
-    logger.meta.level = info
+    logger.meta.level = debug
     
+    logger.meta.name = org.apache.hadoop.fs.s3a
+    logger.meta.level = debug
+
     logger.hive.name = org.apache.hive
     logger.hive.level = info
     
@@ -145,7 +142,6 @@ data:
     logger.datanucleus.level = info
     
     rootLogger.level = info
-    rootLogger.appenderRefs = console, file
+    rootLogger.appenderRefs = console
     rootLogger.appenderRef.console.ref = consoleLogger
-    rootLogger.appenderRef.file.ref = fileLogger
 

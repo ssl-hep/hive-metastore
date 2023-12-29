@@ -23,11 +23,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["/bin/sh", "-c"]
         args:
-          - /opt/hive-metastore/bin/schematool
+          - schematool
            --verbose
            -initSchema
            -dbType postgres
-           -userName {{- .Values.postgresql.global.postgresql.auth.username }}
+           -userName "{{- .Values.postgresql.global.postgresql.auth.username }}"
            -passWord "{{- .Values.postgresql.global.postgresql.auth.password }}"
            -url "jdbc:postgresql://{{- .Release.Name}}-postgresql:5432/metastore"
         volumeMounts:
@@ -40,4 +40,4 @@ spec:
 
 
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 8
