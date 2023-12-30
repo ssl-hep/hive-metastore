@@ -21,7 +21,7 @@ data:
 
         <property>
           <name>hive.metastore.warehouse.dir</name>
-          <value>file:///opt/hive-metastore/warehouse</value>
+          <value>file:///opt/hive/warehouse</value>
         </property>
 
         <!--Postgres' connection details -->
